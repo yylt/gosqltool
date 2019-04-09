@@ -1,50 +1,19 @@
 package main
 
 import (
-	"fmt"
-	"io"
 	"os"
 
-	"github.com/yylt/gosqltool/config"
-	"github.com/yylt/gosqltool/pkg/logger"
-
 	"github.com/spf13/cobra"
+	"github.com/yylt/gosqltool/config"
 )
 
-func mustGetLogger() logger.Mlogger {
-	var (
-		logout io.Writer
-	)
-	lvl := config.GetString("log.level")
-	if lvl == "" {
-		lvl = "info"
-	}
-	jsonfmt := config.GetBool("log.jsonfmt")
-	out := config.GetString("log.out")
-	if out == "" {
-		logout = os.Stdout
-	} else {
-		if s, err := os.Stat(out); err != nil {
-			f, err := os.OpenFile(out, os.O_RDWR|os.O_CREATE, os.ModePerm)
-			if err != nil {
-				panic(err)
-			}
-			logout = f
-		} else {
-			if s.IsDir() == true {
-				panic(fmt.Errorf("%s is dir ,can not log!", out))
-			}
-		}
-	}
-	if jsonfmt {
-		return logger.NewJsonLogger(logout, lvl)
-	} else {
-		return logger.NewJsonLogger(logout, lvl)
-	}
-}
-
 func main() {
-	newRootCmd().Execute()
+	err := newRootCmd().Execute()
+	if err != nil {
+		os.Exit(-1)
+	} else {
+		os.Exit(0)
+	}
 }
 
 func newRootCmd() *cobra.Command {

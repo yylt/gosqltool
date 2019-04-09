@@ -12,12 +12,11 @@ import (
 
 	"context"
 
+	"github.com/yylt/gosqltool/config"
 	"github.com/yylt/gosqltool/driver"
 	"github.com/yylt/gosqltool/pkg/logger"
-	"github.com/yylt/gosqltool/config"
 
 	"github.com/spf13/cobra"
-
 )
 
 var (
@@ -28,15 +27,6 @@ var (
 
 	defaultTimeout = time.Second * 3
 )
-
-func getDriver(log logger.Mlogger) (*driver.Driver, error) {
-
-	conf, err := driver.ParseDSN(config.GetString("store.dsn"))
-	if err != nil {
-		return nil, err
-	}
-	return driver.ConnStorage(config.GetString("store.type"), conf, log)
-}
 
 func newInitcmd() *cobra.Command {
 	cmd := &cobra.Command{
@@ -85,7 +75,7 @@ func run(db *driver.Driver, log logger.Mlogger) error {
 	buf := bufio.NewReader(initsql)
 	querybuf := bufPool.Get().(*bytes.Buffer)
 	querybuf.Reset()
-	ctx,canclefunc := context.WithTimeout(context.Background(),defaultTimeout)
+	ctx, canclefunc := context.WithTimeout(context.Background(), defaultTimeout)
 	for {
 		bs, err = buf.ReadString('\n')
 		bs = strings.TrimSpace(bs)
@@ -94,7 +84,7 @@ func run(db *driver.Driver, log logger.Mlogger) error {
 			if bs != "" {
 				querybuf.WriteString(bs)
 				log.Debug("msg", fmt.Sprintf("msg: %s", querybuf.String()))
-				_, err = db.ExecContext(ctx,querybuf.String())
+				_, err = db.ExecContext(ctx, querybuf.String())
 				break
 			}
 			err = nil
@@ -111,7 +101,7 @@ func run(db *driver.Driver, log logger.Mlogger) error {
 				} else {
 					querybuf.WriteString(bs)
 					log.Debug("msg", fmt.Sprintf("msg: %s", querybuf.String()))
-					_, err = db.ExecContext(ctx,querybuf.String())
+					_, err = db.ExecContext(ctx, querybuf.String())
 					querybuf.Reset()
 					if err != nil {
 						break

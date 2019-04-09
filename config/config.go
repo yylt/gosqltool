@@ -54,31 +54,59 @@ var InitConfs = Confs(map[string]*Conf{
 		t:            STRING,
 		e:            "initfile",
 		defaultvalue: "-",
-		desc:         "sql file to init ",
+		desc:         "sql file to init , default from stdin",
 	},
 	"init.ignoreErr": &Conf{
 		name:         "init.ignoreErr",
 		t:            BOOL,
 		e:            "initignoreErr",
 		defaultvalue: false,
-		desc:         "ignore error or failed",
+		desc:         "ignore error when exec statement , but connErr will not ignore",
 	},
 })
 
 var StorConfs = Confs(map[string]*Conf{
-	"store.dsn": &Conf{
-		name:         "store.dsn",
+	"db.addr": &Conf{
+		name:         "db.addr",
 		t:            STRING,
-		e:            "storedsn",
+		e:            "dbaddr",
 		defaultvalue: "",
-		desc:         "desc storage name  [user[:password]@][net[(addr)]]/dbname",
+		desc:         "db addr, envname gosqldbaddr",
 	},
-	"store.type": &Conf{
-		name:         "store.type",
+	"db.net": &Conf{
+		name:         "db.net",
 		t:            STRING,
-		e:            "storetype",
+		e:            "dbnet",
+		defaultvalue: "TCP",
+		desc:         "db net, envname gosqldbnet",
+	},
+	"db.dbname": &Conf{
+		name:         "db.dbname",
+		t:            STRING,
+		e:            "dbname",
+		defaultvalue: "",
+		desc:         "db dbname, envname gosqldbname",
+	},
+	"db.user": &Conf{
+		name:         "db.user",
+		t:            STRING,
+		e:            "dbuser",
+		defaultvalue: "",
+		desc:         "db user, envname gosqldbuser",
+	},
+	"db.password": &Conf{
+		name:         "db.password",
+		t:            STRING,
+		e:            "pw",
+		defaultvalue: "",
+		desc:         "db password, envname gosqlpw",
+	},
+	"db.type": &Conf{
+		name:         "db.type",
+		t:            STRING,
+		e:            "type",
 		defaultvalue: "mysql",
-		desc:         "storage type, now support mysql",
+		desc:         "db type, now support mysql,  envname gosqltype",
 	},
 })
 
