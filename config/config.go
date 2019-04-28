@@ -77,7 +77,7 @@ var StorConfs = Confs(map[string]*Conf{
 		name:         "db.net",
 		t:            STRING,
 		e:            "dbnet",
-		defaultvalue: "TCP",
+		defaultvalue: "tcp",
 		desc:         "db net, envname gosqldbnet",
 	},
 	"db.dbname": &Conf{
@@ -91,14 +91,14 @@ var StorConfs = Confs(map[string]*Conf{
 		name:         "db.user",
 		t:            STRING,
 		e:            "dbuser",
-		defaultvalue: "",
+		defaultvalue: "admin",
 		desc:         "db user, envname gosqldbuser",
 	},
 	"db.password": &Conf{
 		name:         "db.password",
 		t:            STRING,
 		e:            "pw",
-		defaultvalue: "",
+		defaultvalue: "admin",
 		desc:         "db password, envname gosqlpw",
 	},
 	"db.type": &Conf{
@@ -190,5 +190,6 @@ func Lookup(name string) interface{} {
 }
 
 func init() {
+	viper.AutomaticEnv()
 	viper.SetEnvPrefix(Prefix)
 }

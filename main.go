@@ -28,10 +28,7 @@ func newRootCmd() *cobra.Command {
 	if err != nil {
 		panic(err)
 	}
-	err = config.StorConfs.ApplyFlags(flags)
-	if err != nil {
-		panic(err)
-	}
+
 	cmd.AddCommand(
 		//  commands
 		newInitcmd(),

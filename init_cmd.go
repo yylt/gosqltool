@@ -45,6 +45,7 @@ func newInitcmd() *cobra.Command {
 		},
 	}
 	flags := cmd.Flags()
+	config.StorConfs.ApplyFlags(flags)
 	err := config.InitConfs.ApplyFlags(flags)
 	if err != nil {
 		panic(err)
