@@ -23,8 +23,6 @@ var (
 	INT    T = "int"
 	BOOL   T = "bool"
 	STRING T = "string"
-
-	Prefix = "gosql"
 )
 
 var GlobalConfs = Confs(map[string]*Conf{
@@ -40,12 +38,6 @@ var GlobalConfs = Confs(map[string]*Conf{
 		e:            "LOGJSONFMT",
 		defaultvalue: true,
 	},
-	"log.out": &Conf{
-		name:         "log.out",
-		t:            STRING,
-		e:            "LOGstdout",
-		defaultvalue: "",
-	},
 })
 
 var InitConfs = Confs(map[string]*Conf{
@@ -56,57 +48,50 @@ var InitConfs = Confs(map[string]*Conf{
 		defaultvalue: "-",
 		desc:         "sql file to init , default from stdin",
 	},
-	"init.ignoreErr": &Conf{
-		name:         "init.ignoreErr",
-		t:            BOOL,
-		e:            "initignoreErr",
-		defaultvalue: false,
-		desc:         "ignore error when exec statement , but connErr will not ignore",
-	},
 })
 
 var StorConfs = Confs(map[string]*Conf{
 	"db.addr": &Conf{
 		name:         "db.addr",
 		t:            STRING,
-		e:            "dbaddr",
+		e:            "tooldbaddr",
 		defaultvalue: "",
-		desc:         "db addr, envname gosqldbaddr",
+		desc:         "db addr",
 	},
 	"db.net": &Conf{
 		name:         "db.net",
 		t:            STRING,
-		e:            "dbnet",
+		e:            "tooldbnet",
 		defaultvalue: "tcp",
-		desc:         "db net, envname gosqldbnet",
+		desc:         "db net",
 	},
 	"db.dbname": &Conf{
 		name:         "db.dbname",
 		t:            STRING,
-		e:            "dbname",
+		e:            "tooldbname",
 		defaultvalue: "",
-		desc:         "db dbname, envname gosqldbname",
+		desc:         "db dbname",
 	},
 	"db.user": &Conf{
 		name:         "db.user",
 		t:            STRING,
-		e:            "dbuser",
+		e:            "tooldbuser",
 		defaultvalue: "admin",
-		desc:         "db user, envname gosqldbuser",
+		desc:         "db user",
 	},
 	"db.password": &Conf{
 		name:         "db.password",
 		t:            STRING,
-		e:            "pw",
+		e:            "toolpw",
 		defaultvalue: "admin",
-		desc:         "db password, envname gosqlpw",
+		desc:         "db password",
 	},
 	"db.type": &Conf{
 		name:         "db.type",
 		t:            STRING,
-		e:            "type",
+		e:            "tooltype",
 		defaultvalue: "mysql",
-		desc:         "db type, now support mysql,  envname gosqltype",
+		desc:         "db type, now support mysql",
 	},
 })
 
@@ -187,9 +172,4 @@ func GetInt(name string) int {
 
 func Lookup(name string) interface{} {
 	return viper.Get(name)
-}
-
-func init() {
-	viper.AutomaticEnv()
-	viper.SetEnvPrefix(Prefix)
 }

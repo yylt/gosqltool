@@ -95,7 +95,7 @@ func (l *mLog) Debug(keyvals ...interface{}) {
 
 func (l *mLog) Warn(keyvals ...interface{}) {
 	if l.allowd <= WarnLevel {
-		level.Debug(l.lg).Log(keyvals...)
+		level.Warn(l.lg).Log(keyvals...)
 	}
 }
 

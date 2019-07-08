@@ -26,29 +26,11 @@ func mustGetLogger() logger.Mlogger {
 		logout io.Writer
 	)
 	lvl := config.GetString("log.level")
-	if lvl == "" {
-		lvl = "info"
-	}
 	jsonfmt := config.GetBool("log.jsonfmt")
-	out := config.GetString("log.out")
-	if out == "" {
-		logout = os.Stdout
-	} else {
-		if s, err := os.Stat(out); err != nil {
-			f, err := os.OpenFile(out, os.O_RDWR|os.O_CREATE, os.ModePerm)
-			if err != nil {
-				panic(err)
-			}
-			logout = f
-		} else {
-			if s.IsDir() == true {
-				panic(fmt.Errorf("%s is dir ,can not log!", out))
-			}
-		}
-	}
+	logout = os.Stdout
 	if jsonfmt {
 		return logger.NewJsonLogger(logout, lvl)
 	} else {
-		return logger.NewJsonLogger(logout, lvl)
+		return logger.NewStrLogger(logout, lvl)
 	}
 }
